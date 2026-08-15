@@ -239,6 +239,13 @@
     .download-link:hover { transform: translateY(-3px); filter: brightness(1.08); }
     .download-link small { font-size: .62em; font-weight: 800; opacity: .9; }
 
+    /* ===== scene 7: 右カラムのビジュアル切り替え ===== */
+    .swap-stage { position: relative; width: 100%; height: 58cqh; display: grid; place-items: center; }
+    .swap-stage > * { grid-area: 1 / 1; width: 100%; margin: 0; }
+    .chat-shot { display: grid; justify-items: center; gap: 1cqh; }
+    .chat-shot img { display: block; width: auto; max-width: 100%; max-height: 51cqh; border-radius: 14px; border: 1px solid #d9e4f5; box-shadow: var(--shadow); background: #fff; }
+    .chat-shot figcaption { padding: .5em 1em; border-radius: 999px; color: #fff; background: rgba(7,26,59,.86); font-size: clamp(8px,1.02cqw,19px); font-weight: 800; }
+
     /* ===== scene 7: funnel ===== */
     .arrows-v { display: flex; gap: clamp(30px,7cqw,120px); }
     .arrow-v { width: 2px; height: clamp(22px,6cqh,70px); background: linear-gradient(180deg,var(--cyan),var(--blue)); position: relative; }
@@ -585,10 +592,16 @@
             <div class="benefit-banner k-pop" data-at="33.1" style="align-self:flex-start">点在する情報を、<b>確認しやすい形</b>に</div>
           </div>
           <div class="example-side" style="align-items:center">
-            <div class="mini-browser k-right" data-at="8.8" style="width:100%">
-              <div class="browser-bar"><i></i><i></i><i></i></div>
-              <img src="assets/mejiro-project-output.png" alt="Box AIで作成した目白御留山PJのHTML総合概要資料" />
-              <div class="browser-caption">実例｜目白御留山PJ 総合概要資料</div>
+            <div class="swap-stage">
+              <div class="mini-browser k-right" data-at="8.8" data-out="27.9">
+                <div class="browser-bar"><i></i><i></i><i></i></div>
+                <img src="assets/mejiro-project-output.png" alt="Box AIで作成した目白御留山PJのHTML総合概要資料" />
+                <div class="browser-caption">実例｜目白御留山PJ 総合概要資料</div>
+              </div>
+              <figure class="chat-shot k-right" data-at="27.9">
+                <img src="assets/rakumo-ringi-output.png" alt="事業収支・収支経緯表・サービス枠管理表をもとに、決裁の定型文へ合わせて出力されたBox AIの回答画面" />
+                <figcaption>実例｜決裁の定型文に合わせた出力</figcaption>
+              </figure>
             </div>
             <a class="download-link k-pop" data-at="33.5" href="assets/mejiro-otomeyama-pj-overview.html" download="目白御留山PJ_総合概要資料.html">⇩ 実例HTMLを保存<small>（目白御留山PJ）</small></a>
           </div>
