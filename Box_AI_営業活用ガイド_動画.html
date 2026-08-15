@@ -92,12 +92,14 @@
     .hero { background: #071a3b; color: #fff; padding: 0 0 12.5%; }
     .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .5; }
     .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(4,16,40,.96) 0%, rgba(4,16,40,.86) 46%, rgba(4,16,40,.55) 100%); }
-    .hero-split { position: relative; z-index: 3; height: 100%; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 3%; padding: 3.5% 4.5% 0; }
+    .hero-split { position: relative; z-index: 3; height: 100%; display: grid; grid-template-columns: .76fr 1.24fr; align-items: center; gap: 2.5%; padding: 3% 2.6% 0 4%; }
     .hero-copy { display: flex; flex-direction: column; gap: 2.4cqh; }
     .hero .eyebrow { color: #73e6ff; }
     .hero h1 { text-shadow: 0 8px 30px rgba(0,0,0,.4); }
     .hero .lead { color: #dbe8ff; }
-    .hero-shot { position: relative; justify-self: center; align-self: center; width: 100%; max-height: 82%; border-radius: 18px; overflow: hidden; border: 1px solid rgba(255,255,255,.4); box-shadow: 0 26px 70px rgba(0,0,0,.5); background: #fff; }
+    .hero-shot { position: relative; justify-self: center; align-self: center; width: 100%; max-height: 88%; border-radius: 18px; overflow: hidden; border: 1px solid rgba(255,255,255,.4); box-shadow: 0 26px 70px rgba(0,0,0,.5); background: #fff; }
+    .hero .word-row .w { font-size: clamp(16px, 3.3cqw, 58px); }
+    .hero .word-row .dot { font-size: clamp(9px, 1.4cqw, 26px); }
     .hero-shot img { display: block; width: 100%; height: auto; }
     .hero-shot-label { position: absolute; right: 4%; bottom: 5%; padding: .6em 1em; border-radius: 999px; color: #fff; background: rgba(7,26,59,.85); backdrop-filter: blur(10px); font-size: clamp(8px, 1cqw, 18px); font-weight: 800; }
     .ai-highlight { position: absolute; z-index: 5; left: .4%; top: 18.7%; width: 13.4%; height: 9%; border: 3px solid #50e6ff; border-radius: 10px; box-shadow: 0 0 0 0 rgba(31,210,255,.7), 0 0 25px rgba(31,210,255,.85); pointer-events: none; }
@@ -225,9 +227,9 @@
     /* ===== scene 10: closing ===== */
     .closing { background: radial-gradient(circle at 50% 32%, #1a66d8 0, #0a2b64 42%, #051532 100%); color: #fff; }
     .closing .eyebrow { color: #7ae8ff; }
-    .steps { display: flex; align-items: center; justify-content: center; gap: 1.4%; }
-    .steps > b { color: #62e2ff; font-size: clamp(14px,2cqw,36px); }
-    .step { min-width: 21%; padding: 1.7% 1.8%; border-radius: 18px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); backdrop-filter: blur(8px); font-size: clamp(9px,1.3cqw,24px); font-weight: 800; }
+    .steps { display: flex; align-items: stretch; justify-content: center; gap: 1.4%; width: 94%; }
+    .steps > b { color: #62e2ff; font-size: clamp(14px,2cqw,36px); align-self: center; }
+    .step { flex: 1 1 0; min-width: 0; display: grid; place-content: center; padding: 1.6% 1.5%; border-radius: 18px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); backdrop-filter: blur(8px); font-size: clamp(9px,1.3cqw,24px); font-weight: 800; line-height: 1.5; }
     .step b { color: #62e2ff; font-size: 1.35em; }
     .final-pill { display: inline-flex; align-items: center; gap: .75em; padding: .75em 1.4em; background: #fff; color: var(--blue); border-radius: 999px; font-size: clamp(11px,1.55cqw,29px); font-weight: 900; box-shadow: 0 15px 45px rgba(0,0,0,.25); }
     .resource-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2em; }
@@ -235,8 +237,9 @@
     .resource-row .download-link { padding: .65em 1.2em; border-radius: 999px; }
 
     /* ===== captions(下部の専用帯・コンテンツと重ならない) ===== */
-    .captions { position: absolute; z-index: 14; left: 4%; right: 4%; bottom: 2.9%; display: grid; place-items: end center; pointer-events: none; }
-    .captions span { display: none; max-width: min(100%, 88cqw); padding: .42em .95em; border-radius: 12px; background: rgba(3,13,32,.82); color: #fff; text-align: center; font-size: clamp(10px,1.7cqw,26px); line-height: 1.45; font-weight: 700; text-shadow: 0 2px 6px rgba(0,0,0,.6); backdrop-filter: blur(6px); }
+    /* 字幕帯は操作パネルより上に常時配置(パネルと重ならない) */
+    .captions { position: absolute; z-index: 14; left: 4%; right: 4%; bottom: 9.2%; display: grid; place-items: end center; pointer-events: none; }
+    .captions span { display: none; max-width: min(100%, 88cqw); padding: .4em .95em; border-radius: 12px; background: rgba(3,13,32,.82); color: #fff; text-align: center; font-size: clamp(9px,1.55cqw,24px); line-height: 1.45; font-weight: 700; text-shadow: 0 2px 6px rgba(0,0,0,.6); backdrop-filter: blur(6px); }
     .captions.on span { display: inline-block; }
 
     /* ===== player UI ===== */
@@ -244,9 +247,9 @@
     .progress::before { content: ""; position: absolute; left: 0; right: 0; top: -14px; height: 14px; }
     .progress-fill { height: 100%; width: 0; background: linear-gradient(90deg,var(--blue),var(--cyan)); transition: width .15s linear; }
     /* 操作パネル:普段は完全に隠れ、マウス操作時のみ右下に表示 */
-    .controls { position: absolute; z-index: 16; right: 1.4%; bottom: 2.6%; display: flex; align-items: center; gap: 4px; padding: 6px 8px; border-radius: 999px; background: rgba(3,13,32,.85); color: #fff; backdrop-filter: blur(14px); box-shadow: 0 10px 35px rgba(0,0,0,.3); opacity: 0; visibility: hidden; transition: opacity .25s, visibility .25s; max-width: 96%; }
+    .controls { position: absolute; z-index: 16; right: 1.4%; bottom: 2.4%; display: flex; align-items: center; gap: 3px; padding: 5px 7px; border-radius: 999px; background: rgba(3,13,32,.78); color: #fff; backdrop-filter: blur(14px); box-shadow: 0 10px 35px rgba(0,0,0,.3); opacity: 0; visibility: hidden; transition: opacity .25s, visibility .25s; max-width: 96%; }
     .controls.visible, .controls:focus-within, .controls:hover { opacity: 1; visibility: visible; }
-    .controls button { border: 0; color: #fff; background: transparent; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; display: grid; place-items: center; font-size: 15px; }
+    .controls button { border: 0; color: #fff; background: transparent; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: grid; place-items: center; font-size: 14px; }
     .controls button:hover { background: rgba(255,255,255,.16); }
     .controls button.on { background: rgba(31,210,255,.35); }
     .controls button:disabled { opacity: .35; cursor: default; }
@@ -292,7 +295,7 @@
         <div class="hero-split">
           <div class="hero-copy">
             <div class="eyebrow" data-at="0.3">営業業務 × BOX AI</div>
-            <h1 class="kt-big" data-at="0.6" data-kinetic>営業で、<br>いちばん<span class="grad-w">使えるAI</span>。</h1>
+            <h1 class="kt-big" data-at="0.6" data-kinetic>営業で、いちばん<br><span class="grad-w">使えるAI</span>。</h1>
             <div class="chip-row" style="justify-content:flex-start">
               <span data-at="5.6">物件資料</span><span data-at="6.0">価格表</span><span data-at="6.4">PJコード</span><span data-at="6.8">サービス枠管理表</span><span data-at="7.2">稟議関連資料</span>
             </div>
@@ -376,7 +379,7 @@
           <div class="chip-row">
             <span data-at="10.8">資料名</span><span data-at="11.4">フォルダ名</span><span data-at="12.0">ファイル内の記載</span><span data-at="12.6">メールのタイトル・本文</span>
           </div>
-          <div class="pj-tag" data-at="13.6">PJ-XXXX</div>
+          <div class="pj-tag" data-at="13.6">3320×××</div>
           <div class="kt-mid k-pop" data-at="20.2" style="color:#c9f6ff">→ 検索・抽出・集約の<span class="grad-w">精度が上がる</span></div>
         </div>
       </section>
@@ -518,11 +521,11 @@
           <h2 class="kt-huge k-pop" data-at="0.6">まずは、<span class="grad-w">身近なところ</span>から。</h2>
           <p class="lead" data-at="1.6" style="color:#dbe9ff">Box上に資料を整理・蓄積していくことが、今後の活用につながります。</p>
           <div class="steps">
-            <div class="step" data-at="2.6"><b>1</b><br>身近なフォルダ・<br>管理表から試す</div>
+            <div class="step" data-at="2.6"><b>1</b><br>身近なフォルダ・管理表から試す</div>
             <b data-at="3.0">→</b>
-            <div class="step" data-at="3.2"><b>2</b><br>無理のない範囲で<br>使ってみる</div>
+            <div class="step" data-at="3.2"><b>2</b><br>無理のない範囲で使ってみる</div>
             <b data-at="3.6">→</b>
-            <div class="step" data-at="3.8"><b>3</b><br>Boxへ資料を<br>整理・蓄積</div>
+            <div class="step" data-at="3.8"><b>3</b><br>Boxへ資料を整理・蓄積</div>
           </div>
           <div class="final-pill k-pop" data-at="5.6">✦ 整理・蓄積した資料が、これからのAI活用の土台</div>
           <div class="resource-row" data-at="7.2">
@@ -760,7 +763,7 @@
       // 操作パネル:マウス操作・タップ時のみ表示し、すぐに隠す
       function pokeControls() {
         controls.classList.add('visible');
-        clearTimeout(ctrlTimer); ctrlTimer = setTimeout(() => controls.classList.remove('visible'), 2600);
+        clearTimeout(ctrlTimer); ctrlTimer = setTimeout(() => controls.classList.remove('visible'), 1800);
       }
       stage.addEventListener('pointermove', pokeControls);
       stage.addEventListener('pointerdown', pokeControls);
