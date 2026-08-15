@@ -240,10 +240,10 @@
     .download-link small { font-size: .62em; font-weight: 800; opacity: .9; }
 
     /* ===== scene 7: 右カラムのビジュアル切り替え ===== */
-    .swap-stage { position: relative; width: 100%; height: 58cqh; display: grid; place-items: center; }
+    .swap-stage { position: relative; width: 100%; height: 62cqh; display: grid; place-items: center; }
     .swap-stage > * { grid-area: 1 / 1; width: 100%; margin: 0; }
     .chat-shot { display: grid; justify-items: center; gap: 1cqh; }
-    .chat-shot img { display: block; width: auto; max-width: 100%; max-height: 51cqh; border-radius: 14px; border: 1px solid #d9e4f5; box-shadow: var(--shadow); background: #fff; }
+    .chat-shot img { display: block; width: auto; max-width: 100%; max-height: 58cqh; border-radius: 14px; border: 1px solid #d9e4f5; box-shadow: var(--shadow); background: #fff; }
     .chat-shot figcaption { padding: .5em 1em; border-radius: 999px; color: #fff; background: rgba(7,26,59,.86); font-size: clamp(8px,1.02cqw,19px); font-weight: 800; }
 
     /* ===== scene 7: funnel ===== */
@@ -475,7 +475,7 @@
       </section>
 
       <!-- 2. 仕組み(あらゆる形式の資料 × 複数のAIモデル) -->
-      <section class="scene light-scene" data-title="Box AIの仕組み" data-crumb="仕組み" data-plan="31.13">
+      <section class="scene light-scene" data-title="Box AIの仕組み" data-crumb="仕組み" data-plan="26.33">
         <div class="deco" aria-hidden="true"><i class="o1"></i><i class="o2"></i><span class="grid"></span></div>
         <div class="visual-layout">
           <figure class="visual-figure k-left" data-at="0.9">
@@ -487,10 +487,10 @@
             <h2 class="kt-big k-pop" data-at="0.6" style="text-align:left; font-size:clamp(15px,3.1cqw,56px)">ただのチャットAIでは、<span class="accent">ない</span>。</h2>
             <div class="point-list">
               <div class="point k-right" data-at="3.0"><div class="ico">▤</div><div><b>あらゆる形式の資料を参照</b><span>PDF・Excel・PowerPoint・Word など、Box上のファイルをそのまま読む</span></div></div>
-              <div class="point k-right" data-at="13.6"><div class="ico">✦</div><div><b>複数のAIモデル＋エージェント機能</b><span>用途に応じて、裏側で複数のモデルを組み合わせて処理する</span></div></div>
-              <div class="point k-right" data-at="20.4"><div class="ico">🔒</div><div><b>機密情報の取り扱い・画像の読み込みも</b><span>複数のエージェントを活用しているため、精度の高い結果になりやすい</span></div></div>
+              <div class="point k-right" data-at="12.8"><div class="ico">✦</div><div><b>複数のAIモデル＋エージェント機能</b><span>用途に応じて、裏側で複数のモデルを組み合わせて処理する</span></div></div>
+              <div class="point k-right" data-at="19.3"><div class="ico">🖼</div><div><b>画像を含む資料の読み込みにも対応</b><span>組み合わせ処理により、精度の高い結果になりやすい</span></div></div>
             </div>
-            <a class="link-chip" data-at="27.0" href="https://www.box.com/ja-jp/agents" target="_blank" rel="noopener" style="align-self:flex-start">▶ 公式サイト「Box Agentとは」</a>
+            <a class="link-chip" data-at="24.5" href="https://www.box.com/ja-jp/agents" target="_blank" rel="noopener" style="align-self:flex-start">▶ 公式サイト「Box Agentとは」</a>
           </div>
         </div>
       </section>
@@ -625,7 +625,10 @@
                 <figcaption>実例｜決裁の定型文に合わせた出力</figcaption>
               </figure>
             </div>
-            <a class="download-link k-pop" data-at="33.5" href="assets/mejiro-otomeyama-pj-overview.html" download="目白御留山PJ_総合概要資料.html">⇩ 実例HTMLを保存<small>（目白御留山PJ）</small></a>
+            <div class="resource-row" style="justify-content:center">
+              <a class="download-link k-pop" data-at="33.5" href="assets/mejiro-otomeyama-pj-overview.html" download="目白御留山PJ_総合概要資料.html">⇩ 実例HTMLを保存<small>（目白御留山PJ）</small></a>
+              <a class="download-link k-pop" data-at="34.1" href="assets/rakumo-ringi-output.png" download="決裁文出力_実例_参考プロンプト.png">⇩ 決裁文出力の実例を保存<small>（参考プロンプトとして）</small></a>
+            </div>
           </div>
         </div>
       </section>
@@ -665,7 +668,7 @@
         <div class="prompt-layout">
           <div class="example-side">
             <div class="eyebrow" data-at="0.3">09｜良い結果を得るコツ</div>
-            <h2 class="kt-big k-pop" data-at="0.6" style="text-align:left">プロンプトが、<span class="accent">9割</span>。</h2>
+            <h2 class="kt-big k-pop" data-at="0.6" style="text-align:left">プロンプトが、<span class="accent">９割</span>。</h2>
             <div class="prompt-points">
               <div class="prompt-point k-left" data-at="3.1"><i>1</i><div>対象資料<small>どのフォルダ・どの資料を見るか</small></div></div>
               <div class="prompt-point k-left" data-at="4.6"><i>2</i><div>確認したい項目<small>売価・税額・残額・粗利 など</small></div></div>
@@ -756,6 +759,7 @@
             <a class="link-chip" href="https://www.box.com/ja-jp/agents" target="_blank" rel="noopener">▶ Box Agentとは（公式サイト）</a>
             <a class="link-chip" href="https://mirarth-grp.ent.box.com/file/2403547338387" target="_blank" rel="noopener">▶ Box Agent ユースケース資料（DX推進）</a>
             <a class="download-link" href="assets/mejiro-otomeyama-pj-overview.html" download="目白御留山PJ_総合概要資料.html">⇩ 実例HTMLを保存</a>
+            <a class="download-link" href="assets/rakumo-ringi-output.png" download="決裁文出力_実例_参考プロンプト.png">⇩ 決裁文実例を保存（参考プロンプト）</a>
           </div>
         </div>
       </section>
