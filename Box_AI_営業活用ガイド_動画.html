@@ -72,6 +72,11 @@
     .scene.dense .arrow-v { height: clamp(16px, 3.6cqh, 46px); }
     .scene.dense .funnel-target { padding: 1.4% 4% 1.6%; }
     .scene.dense .note-card { padding: 2.6% 3.2%; }
+    .scene.dense .point-list { gap: 1.1cqh; }
+    .scene.dense .point { padding: 2.2% 3.2%; }
+    .scene.dense .point b { font-size: clamp(10px,1.32cqw,25px); }
+    .scene.dense .point span { font-size: clamp(7px,.96cqw,17px); }
+    .scene.dense .visual-figure img { max-height: 56cqh; }
 
     /* decorative background for kinetic scenes */
     .deco { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
@@ -163,6 +168,18 @@
     .output-row { display: flex; align-items: center; gap: .7em; font-size: clamp(9px,1.2cqw,22px); font-weight: 800; }
     .output-row i { flex: 0 0 auto; width: 1.4em; height: 1.4em; display: grid; place-items: center; border-radius: 50%; background: #e8fff6; color: var(--green); font-style: normal; font-size: .95em; }
     .output-row .bar { flex: 1; height: .5em; border-radius: 999px; background: linear-gradient(90deg,#e3ecfa,#eef4ff); }
+
+    /* ===== 公式ビジュアル(Box AI hub / エージェント構成レイヤー図) ===== */
+    .visual-layout { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 4%; align-items: center; width: 100%; height: 100%; }
+    .visual-figure { margin: 0; display: grid; justify-items: center; gap: 1cqh; }
+    .visual-figure img { display: block; width: 100%; max-height: 62cqh; object-fit: contain; }
+    .visual-figure figcaption { color: var(--muted); font-size: clamp(7px,.95cqw,17px); font-weight: 800; letter-spacing: .04em; }
+    .point-list { display: grid; gap: 1.6cqh; text-align: left; }
+    .point { display: grid; grid-template-columns: auto 1fr; gap: 4%; align-items: start; background: #fff; border: 1px solid #dbe7f8; border-radius: 18px; padding: 3% 4%; box-shadow: 0 12px 34px rgba(7,26,59,.08); }
+    .point .ico { width: clamp(22px,2.7cqw,48px); aspect-ratio: 1; display: grid; place-items: center; border-radius: 13px; background: linear-gradient(145deg,#1668ff,#20d4ff); color: #fff; font-size: clamp(11px,1.5cqw,26px); box-shadow: 0 8px 22px rgba(23,105,255,.32); }
+    .point b { display: block; font-size: clamp(11px,1.5cqw,28px); line-height: 1.35; }
+    .point span { display: block; margin-top: .25em; color: var(--muted); font-size: clamp(8px,1.05cqw,19px); line-height: 1.55; font-weight: 700; }
+    .point .en { color: #7d8ba3; font-size: .78em; letter-spacing: .08em; font-weight: 900; }
 
     /* ===== scene 3: orbit(AIが資料のまわりを横断してまとめる) ===== */
     .orbit-layout { display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 3%; width: 97%; }
@@ -431,25 +448,47 @@
         </div>
       </section>
 
-      <!-- 2. 仕組み(複数エージェント) -->
-      <section class="scene dark-scene dense" data-title="Box AIの仕組み" data-crumb="仕組み" data-plan="33.2">
+      <!-- 2. 仕組み(あらゆる形式の資料 × 複数のAIモデル) -->
+      <section class="scene light-scene" data-title="Box AIの仕組み" data-crumb="仕組み" data-plan="31.13">
         <div class="deco" aria-hidden="true"><i class="o1"></i><i class="o2"></i><span class="grid"></span></div>
-        <div class="center-col">
-          <div class="scene-head-c">
+        <div class="visual-layout">
+          <figure class="visual-figure k-left" data-at="0.9">
+            <img src="assets/box-ai-hub.png" alt="Box AIを中心に、PDF・Excel・PowerPointなどの資料と、複数のAIモデルがつながる図" />
+            <figcaption>出典：Box 公式資料</figcaption>
+          </figure>
+          <div class="example-side">
             <div class="eyebrow" data-at="0.3">02｜BOX AI Agentの仕組み</div>
-            <h2 class="kt-big k-pop" data-at="0.6">ただのチャットAIでは、<span class="grad-w">ない</span>。</h2>
+            <h2 class="kt-big k-pop" data-at="0.6" style="text-align:left; font-size:clamp(15px,3.1cqw,56px)">ただのチャットAIでは、<span class="accent">ない</span>。</h2>
+            <div class="point-list">
+              <div class="point k-right" data-at="3.0"><div class="ico">▤</div><div><b>あらゆる形式の資料を参照</b><span>PDF・Excel・PowerPoint・Word など、Box上のファイルをそのまま読む</span></div></div>
+              <div class="point k-right" data-at="13.6"><div class="ico">✦</div><div><b>複数のAIモデル＋エージェント機能</b><span>用途に応じて、裏側で複数のモデルを組み合わせて処理する</span></div></div>
+              <div class="point k-right" data-at="20.4"><div class="ico">🔒</div><div><b>機密情報の取り扱い・画像の読み込みも</b><span>複数のエージェントを活用しているため、精度の高い結果になりやすい</span></div></div>
+            </div>
+            <a class="link-chip" data-at="27.0" href="https://www.box.com/ja-jp/agents" target="_blank" rel="noopener" style="align-self:flex-start">▶ 公式サイト「Box Agentとは」</a>
           </div>
-          <div class="process">
-            <article class="process-card" data-at="4.0"><div class="round">▤</div><h3>Box上の資料</h3><p>物件資料・価格表・<br>稟議関連資料など</p></article>
-            <div class="arrow" data-at="5.6"></div>
-            <article class="process-card" data-at="6.4"><div class="round">✦</div><h3>Box AI Agent</h3><div class="mini-badges"><span data-at="7.0">✦ 複数のAIモデル</span><span data-at="8.0">⚙ エージェント機能</span><span data-at="15.0">🔒 機密情報の取り扱い</span><span data-at="17.0">🖼 画像の読み込み</span></div><p>資料を参照しながら、複数のエージェントで処理</p></article>
-            <div class="arrow" data-at="10.5"></div>
-            <article class="process-card" data-at="11.3"><div class="round">▦</div><h3>実務に使える出力</h3><div class="out-chips"><span data-at="25.2">検索</span><span data-at="25.9">要約</span><span data-at="26.6">一覧化</span><span data-at="27.3">下書き作成</span></div></article>
+        </div>
+      </section>
+
+      <!-- 3. エージェントの構成(公式レイヤー図) -->
+      <section class="scene light-scene dense" data-title="エージェントの構成" data-crumb="構成" data-plan="37.83">
+        <div class="deco" aria-hidden="true"><i class="o1"></i><i class="o2"></i><span class="grid"></span></div>
+        <div class="visual-layout">
+          <div class="example-side" style="align-items:center; justify-content:center">
+            <figure class="visual-figure k-left" data-at="0.6">
+              <img src="assets/box-ai-agent-layers.png" alt="Box AI Agentの構成レイヤー図：AIモデル、指示、目的、機能とツール、コンテンツへの安全なアクセス" />
+              <figcaption>出典：Box 公式資料</figcaption>
+            </figure>
+            <div class="benefit-banner k-pop" data-at="29.0">資料が<b>整理されているほど</b>、活用しやすくなる</div>
           </div>
-          <div style="display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:1em">
-            <div class="benefit-banner k-pop" data-at="19.5">機密情報も画像も<b class="grad-w">複数エージェント</b>で処理 → 精度が高い</div>
-            <div class="benefit-banner k-pop" data-at="29.0">資料が<b class="grad-w">整理されているほど</b>、活用しやすくなる</div>
-            <a class="link-chip" data-at="31.0" href="https://www.box.com/ja-jp/agents" target="_blank" rel="noopener">▶ 公式サイト「Box Agentとは」</a>
+          <div class="example-side">
+            <div class="eyebrow" data-at="0.2">03｜エージェントの構成</div>
+            <h2 class="kt-big k-pop" data-at="0.5" style="text-align:left; font-size:clamp(15px,3.1cqw,56px)">AIは、<span class="accent">層</span>でできている。</h2>
+            <div class="point-list">
+              <div class="point k-right" data-at="5.9"><div class="ico">🔐</div><div><b>コンテンツへの安全なアクセス<span class="en"> SECURE ACCESS</span></b><span>土台。Boxの権限の範囲内でのみ、資料を参照する</span></div></div>
+              <div class="point k-right" data-at="11.3"><div class="ico">✦</div><div><b>AIモデル<span class="en"> AI MODEL</span></b><span>用途に応じたモデルが選ばれる</span></div></div>
+              <div class="point k-right" data-at="14.5"><div class="ico">✎</div><div><b>指示・目的<span class="en"> INSTRUCTIONS / OBJECTIVE</span></b><span>こちらの書き方で結果が大きく変わる部分</span></div></div>
+              <div class="point k-right" data-at="17.6"><div class="ico">⚙</div><div><b>機能とツール<span class="en"> CAPABILITIES &amp; TOOLS</span></b><span>検索・要約・一覧化・下書き作成などの実行手段</span></div></div>
+            </div>
           </div>
         </div>
       </section>
@@ -459,7 +498,7 @@
         <div class="deco" aria-hidden="true"><i class="o1"></i><i class="o2"></i><span class="grid"></span></div>
         <div class="center-col">
           <div class="scene-head-c">
-            <div class="eyebrow" data-at="0.3">03｜点在する資料の横断整理</div>
+            <div class="eyebrow" data-at="0.3">04｜点在する資料の横断整理</div>
             <h2 class="kt-big k-pop" data-at="0.6">散らばった資料を、<span class="grad-w">まわってまとめる</span>。</h2>
           </div>
           <div class="orbit-layout">
@@ -494,7 +533,7 @@
       <section class="scene pj-scene" data-title="PJコードが共通キー" data-crumb="PJコード" data-plan="33.71">
         <img class="pj-bg" src="assets/pj-code-hub.png" alt="" aria-hidden="true" />
         <div class="center-col">
-          <div class="eyebrow" style="color:#61dcff" data-at="0.3">04｜情報をつなぐ共通キー</div>
+          <div class="eyebrow" style="color:#61dcff" data-at="0.3">05｜情報をつなぐ共通キー</div>
           <h2 class="kt-huge k-pop" data-at="0.7">カギは、<span class="grad-w">PJコード</span>。</h2>
           <p class="lead" style="color:#dceaff" data-at="9.1">資料名・フォルダ名・ファイル内の記載に、<br>できるだけPJコードを含めてください。</p>
           <div class="chip-row">
@@ -510,7 +549,7 @@
         <div class="deco" aria-hidden="true"><i class="o1"></i><i class="o2"></i><span class="grid"></span></div>
         <div class="center-col">
           <div class="scene-head-c">
-            <div class="eyebrow" data-at="0.3">05｜具体的な使い方</div>
+            <div class="eyebrow" data-at="0.3">06｜具体的な使い方</div>
             <h2 class="kt-big k-pop" data-at="0.6">選んで、<span class="accent">聞くだけ</span>。</h2>
           </div>
           <div class="usage-shots">
@@ -539,7 +578,7 @@
         <div class="deco" aria-hidden="true"><i class="o1"></i><i class="o2"></i><span class="grid"></span></div>
         <div class="example-layout">
           <div class="example-side">
-            <div class="eyebrow" data-at="0.3">06｜実際の活用例</div>
+            <div class="eyebrow" data-at="0.3">07｜実際の活用例</div>
             <h2 class="kt-big k-pop" data-at="0.6" style="text-align:left">実際に、<span class="accent">やってみた</span>。</h2>
             <div class="example-list">
               <div class="example-item k-left" data-at="2.4"><div class="check">✓</div><div><b>物件リストにPJコード・価格を付与し、顧客情報を紐付け</b><span>別々の資料の情報を、ひとつの一覧に</span></div></div>
@@ -564,7 +603,7 @@
         <div class="deco" aria-hidden="true"><i class="o1"></i><i class="o2"></i><span class="grid"></span></div>
         <div class="center-col">
           <div class="scene-head-c">
-            <div class="eyebrow" data-at="0.3">07｜今後の活用に備えて</div>
+            <div class="eyebrow" data-at="0.3">08｜今後の活用に備えて</div>
             <h2 class="kt-big k-pop" data-at="0.6">自分の<span class="grad-w">権限の範囲</span>に、集めていく。</h2>
           </div>
           <div class="chip-row">
@@ -593,7 +632,7 @@
         <div class="deco" aria-hidden="true"><i class="o1"></i><i class="o2"></i><span class="grid"></span></div>
         <div class="prompt-layout">
           <div class="example-side">
-            <div class="eyebrow" data-at="0.3">08｜良い結果を得るコツ</div>
+            <div class="eyebrow" data-at="0.3">09｜良い結果を得るコツ</div>
             <h2 class="kt-big k-pop" data-at="0.6" style="text-align:left">プロンプトが、<span class="accent">9割</span>。</h2>
             <div class="prompt-points">
               <div class="prompt-point k-left" data-at="3.1"><i>1</i><div>対象資料<small>どのフォルダ・どの資料を見るか</small></div></div>
@@ -620,7 +659,7 @@
         <div class="deco" aria-hidden="true"><i class="o1"></i><i class="o2"></i><span class="grid"></span></div>
         <div class="center-col">
           <div class="scene-head-c">
-            <div class="eyebrow" data-at="0.3">09｜利用時の注意①</div>
+            <div class="eyebrow" data-at="0.3">10｜利用時の注意①</div>
             <h2 class="kt-big k-pop" data-at="0.6">AIは、まだ<span class="accent">覚えていない</span>。</h2>
           </div>
           <div class="note-row">
@@ -636,7 +675,7 @@
       <section class="scene light-scene" data-title="1日の利用制限" data-crumb="利用制限" data-plan="28.87">
         <div class="deco" aria-hidden="true"><i class="o1"></i><i class="o2"></i><span class="grid"></span></div>
         <div class="limit-first" data-at="0.2" data-out="8.4">
-          <div class="eyebrow" data-at="0.2">10｜利用時の注意②</div>
+          <div class="eyebrow" data-at="0.2">11｜利用時の注意②</div>
           <figure class="shot k-pop" data-at="0.4" style="margin:0">
             <img src="assets/box-agent-lite-warning.png" alt="Box Agentの1日上限に達してBox Agent Liteへ切り替わった実際の警告画面" />
           </figure>
@@ -646,7 +685,7 @@
         <div class="limit-detail" data-at="8.4">
           <div class="warning-layout">
             <div class="example-side">
-              <div class="eyebrow" data-at="8.4">10｜利用時の注意②</div>
+              <div class="eyebrow" data-at="8.4">11｜利用時の注意②</div>
               <h2 class="kt-big k-pop" data-at="8.6" style="text-align:left">下がった後は、<span class="orange">軽めの作業</span>に。</h2>
               <figure class="warning-screen k-left" data-at="8.8">
                 <img src="assets/box-agent-lite-warning.png" alt="Box Agent Liteへ切り替わった際の警告表示" />
@@ -695,7 +734,7 @@
 
       <div class="start-gate" id="startGate">
         <div class="start-card">
-          <strong id="startNote">ナレーション音声・字幕付きでご覧いただけます（約5分半）</strong>
+          <strong id="startNote">ナレーション音声・字幕付きでご覧いただけます（約6分）</strong>
           <button class="start-voice" id="startWithVoice">▶ 音声付きで再生</button>
           <button class="start-silent" id="startSilent">音声なしで再生</button>
         </div>
@@ -703,7 +742,7 @@
       <div class="topbar">
         <div class="brand-mark"><i></i> Box AI 営業活用ガイド</div>
         <nav class="crumbs" id="crumbs" aria-label="チャプター"></nav>
-        <div class="scene-counter"><span id="counter">1 / 11</span></div>
+        <div class="scene-counter"><span id="counter">1 / 12</span></div>
       </div>
       <div class="controls" id="controls" aria-label="動画コントロール">
         <button id="prev" title="前のシーン" aria-label="前のシーン">◀</button>
@@ -776,7 +815,7 @@
       });
 
       let current = 0, sceneElapsed = 0, playing = false, started = false;
-      let muted = false, captionsOn = true, timerScene = false, toastShown = false;
+      let muted = false, captionsOn = true, timerScene = false, toastShown = false, ttsStall = 0;
       let rateIdx = 0;
       let last = performance.now(), transitionToken = 0, lastCueText = null, ctrlTimer = 0, toastTimer = 0;
 
@@ -787,13 +826,83 @@
       function rate() { return RATES[rateIdx]; }
 
       if (!NARR) { ccBtn.disabled = true; ccBtn.classList.remove('on'); captionsOn = false; }
+
+      /* ===== ブラウザ音声合成によるナレーション =====
+         MP3が未生成(NARRATION_AUDIO=false)でも、日本語音声があれば読み上げる。
+         Edgeでは ja-JP の自然音声(Keita/Nanami等)が使えるため、MP3版に近い読み上げになる。 */
+      const SPEECH = window.speechSynthesis || null;
+      let jaVoice = null, ttsOn = false, speakToken = 0;
+      function loadVoices() {
+        if (!SPEECH) return;
+        const all = SPEECH.getVoices() || [];
+        const ja = all.filter(v => /^ja\b|^ja-|^ja_/i.test(v.lang || ''));
+        jaVoice = ja.find(v => /keita/i.test(v.name)) ||
+                  ja.find(v => /natural|online|nanami/i.test(v.name)) || ja[0] || null;
+      }
+      function ttsReady() { return !!(SPEECH && NARR && jaVoice); }
+      function sceneText(i, fromCue) { return NARR[i].cues.slice(fromCue || 0).map(c => c.text).join(''); }
+      function cueIndexAt(i, t) {
+        const cues = NARR[i].cues;
+        let idx = 0;
+        for (let k = 0; k < cues.length; k++) if (cues[k].t <= t + .05) idx = k;
+        return idx;
+      }
+      function stopSpeech() { speakToken++; if (SPEECH) { try { SPEECH.cancel(); } catch (_) {} } }
+      function speakScene(i, fromCue) {
+        if (!ttsReady() || !ttsOn) return;
+        stopSpeech();
+        const idx = Math.max(0, fromCue || 0);
+        const text = sceneText(i, idx);
+        if (!text) return;
+        const token = speakToken;
+        const u = new SpeechSynthesisUtterance(text);
+        u.voice = jaVoice; u.lang = jaVoice.lang || 'ja-JP'; u.rate = rate();
+        // 文字位置から字幕・演出の進行位置を割り出す(読み上げに演出を合わせる)
+        const segs = []; let acc = 0;
+        for (let k = idx; k < NARR[i].cues.length; k++) {
+          const c = NARR[i].cues[k];
+          segs.push({ start: acc, end: acc + c.text.length, c });
+          acc += c.text.length;
+        }
+        u.onboundary = (e) => {
+          if (token !== speakToken || current !== i) return;
+          const ci = e.charIndex || 0;
+          const seg = segs.find(s => ci >= s.start && ci < s.end) || segs[segs.length - 1];
+          const p = (ci - seg.start) / Math.max(1, seg.end - seg.start);
+          sceneElapsed = Math.min(durations[i] - .05, seg.c.t + p * Math.max(0, seg.c.e - seg.c.t));
+        };
+        u.onend = () => {
+          if (token !== speakToken || current !== i || !playing) return;
+          sceneElapsed = durations[i]; updateUI(); renderKinetics();
+          if (i === scenes.length - 1) { playing = false; updateUI(); }
+          else show(i + 1);
+        };
+        try { SPEECH.speak(u); } catch (_) {}
+      }
+
+      function refreshStartGate() {
+        const withVoiceBtn = document.getElementById('startWithVoice');
+        const silentBtn = document.getElementById('startSilent');
+        const note = document.getElementById('startNote');
+        const len = `約${Math.floor(total / 60)}分${String(Math.round(total % 60)).padStart(2, '0')}秒`;
+        if (AUDIO_OK) return;
+        if (ttsReady()) {
+          withVoiceBtn.style.display = '';
+          withVoiceBtn.textContent = '▶ 音声付きで再生（ブラウザ読み上げ）';
+          silentBtn.textContent = '音声なしで再生';
+          note.textContent = `ナレーション（ブラウザ読み上げ）・字幕付きでご覧いただけます（${len}）`;
+          muteBtn.style.display = '';
+        } else {
+          withVoiceBtn.style.display = 'none';
+          silentBtn.textContent = '▶ 字幕付きで再生';
+          note.textContent = `字幕付きでご覧いただけます（${len}）`;
+          muteBtn.style.display = 'none';
+        }
+      }
       if (!AUDIO_OK) {
-        // 音声ファイルが原稿と同期していない状態:字幕＋自動進行のみで再生する
-        document.getElementById('startWithVoice').style.display = 'none';
-        document.getElementById('startSilent').textContent = '▶ 字幕付きで再生';
-        document.getElementById('startNote').textContent =
-          `字幕付きでご覧いただけます（約${Math.floor(total / 60)}分${String(Math.round(total % 60)).padStart(2, '0')}秒）`;
-        muteBtn.style.display = 'none';
+        loadVoices();
+        refreshStartGate();
+        if (SPEECH) SPEECH.addEventListener('voiceschanged', () => { loadVoices(); if (!started) refreshStartGate(); });
       }
       if (!document.fullscreenEnabled) fsBtn.style.display = 'none';
       audio.addEventListener('loadedmetadata', () => { audio.playbackRate = rate(); });
@@ -824,6 +933,10 @@
         });
         lastCueText = null;
         const token = ++transitionToken;
+        if (started && !AUDIO_OK) {
+          stopSpeech();
+          if (ttsOn && playing) speakScene(current, cueIndexAt(current, sceneElapsed));
+        }
         if (started && AUDIO_OK) {
           audio.src = srcOf(current);
           audio.playbackRate = rate();
@@ -886,7 +999,14 @@
           if (timerScene) {
             sceneElapsed += dt * rate();
             if (sceneElapsed >= durations[current]) {
-              if (current === scenes.length - 1) { playing = false; sceneElapsed = durations[current]; }
+              if (ttsOn) {
+                // 読み上げの終了(onend)を待つ。想定尺を大きく超えても無音なら保険で先へ進む
+                sceneElapsed = durations[current];
+                if (!(SPEECH && (SPEECH.speaking || SPEECH.pending))) {
+                  ttsStall += dt;
+                  if (ttsStall > 1.5) { ttsStall = 0; if (current === scenes.length - 1) playing = false; else show(current + 1); }
+                } else ttsStall = 0;
+              } else if (current === scenes.length - 1) { playing = false; sceneElapsed = durations[current]; }
               else show(current + 1);
             }
           } else if (started) {
@@ -899,7 +1019,10 @@
       }
 
       function start(withVoice) {
-        started = true; muted = !withVoice; audio.muted = muted;
+        started = true;
+        ttsOn = !AUDIO_OK && withVoice && ttsReady();
+        muted = !withVoice || (!AUDIO_OK && !ttsOn);
+        audio.muted = muted;
         playing = true; last = performance.now();
         startGate.classList.add('hidden');
         show(0);
@@ -913,15 +1036,29 @@
         if (playing) {
           if (current === scenes.length - 1 && sceneElapsed >= durations[current] - .1) show(0);
           else if (sceneElapsed >= durations[current] - .1) show(current + 1);
+          else if (ttsOn) { if (SPEECH.paused) SPEECH.resume(); else speakScene(current, cueIndexAt(current, sceneElapsed)); }
           else if (!timerScene) audio.play().catch(() => {});
-        } else if (!timerScene) audio.pause();
+        } else if (ttsOn) { try { SPEECH.pause(); } catch (_) {} }
+        else if (!timerScene) audio.pause();
         updateUI();
       });
       document.getElementById('prev').addEventListener('click', () => { if (started) show(current - 1); });
       document.getElementById('next').addEventListener('click', () => { if (started) show(current + 1); });
-      muteBtn.addEventListener('click', () => { muted = !muted; audio.muted = muted; updateUI(); });
+      muteBtn.addEventListener('click', () => {
+        muted = !muted; audio.muted = muted;
+        if (!AUDIO_OK && ttsReady()) {
+          ttsOn = !muted;
+          if (ttsOn && playing) speakScene(current, cueIndexAt(current, sceneElapsed)); else stopSpeech();
+        }
+        updateUI();
+      });
       ccBtn.addEventListener('click', () => { if (!NARR) return; captionsOn = !captionsOn; renderCaption(); updateUI(); });
-      rateBtn.addEventListener('click', () => { rateIdx = (rateIdx + 1) % RATES.length; audio.defaultPlaybackRate = rate(); audio.playbackRate = rate(); updateUI(); showToast(`再生速度: ${rate()}倍`); });
+      rateBtn.addEventListener('click', () => {
+        rateIdx = (rateIdx + 1) % RATES.length;
+        audio.defaultPlaybackRate = rate(); audio.playbackRate = rate();
+        updateUI();
+        showToast(ttsOn ? `再生速度: ${rate()}倍（読み上げは次のシーンから）` : `再生速度: ${rate()}倍`);
+      });
       fsBtn.addEventListener('click', () => document.fullscreenElement ? document.exitFullscreen() : stage.requestFullscreen());
 
       progress.addEventListener('click', (e) => {
@@ -943,6 +1080,7 @@
               }, { once: true });
             }
           }
+          if (ttsOn && playing) speakScene(current, cueIndexAt(current, offset));
           renderCaption(); renderKinetics(); updateUI();
         } else {
           show(idx, { offset });
