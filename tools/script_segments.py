@@ -9,6 +9,21 @@
 
 VOICE = "ja-JP-KeitaNeural"
 
+# 音声の「読み」だけを差し替える表(字幕の表示は元の表記のまま)。
+# 例: 「1日」は素のままだと「ついたち」と読まれるため「いちにち」に固定する。
+READINGS = {
+    "1日": "いちにち",
+    # 英字の直後だと助詞「は」が「ハ」と読まれるため「わ」に固定する
+    "AIには": "AIにわ",
+}
+
+
+def tts_text(text):
+    """TTSに渡す読み上げ用テキスト(READINGS の読みを適用)。"""
+    for surface, reading in READINGS.items():
+        text = text.replace(surface, reading)
+    return text
+
 SEGMENTS = [
     # 1 検索だけじゃない、BOX AI Agent
     "BOX AI Agentは、検索だけのAIではありません。Box上に保存されている物件資料や価格表、PJコード、サービス枠管理表、稟議関連資料などをもとに、必要な情報の確認や要約、抽出、複数資料の整理まで、チャット形式で行うことができます。",

@@ -9,16 +9,18 @@
 12シーンすべてが揃ったときだけ captions.js を書き出す(音声と字幕のズレを防ぐ)。
 
 使い方:  pip install edge-tts
-        python tools/gen_audio.py   (リポジトリルートで実行・要インターネット)
+        python tools/gen_audio.py         (全シーン生成・リポジトリルートで実行・要インターネット)
+        python tools/gen_audio.py 11      (指定シーンだけ作り直し。他は既存の captions.js を引き継ぐ)
 """
 import asyncio
 import json
+import re
 import sys
 from pathlib import Path
 
 import edge_tts
 
-from script_segments import SEGMENTS, VOICE
+from script_segments import SEGMENTS, VOICE, READINGS, tts_text
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "assets" / "audio"
@@ -34,7 +36,8 @@ class Incomplete(Exception):
 
 async def synthesize(index, text):
     """1シーンを生成して (bytes, cues) を返す。完走していなければ Incomplete。"""
-    communicate = edge_tts.Communicate(text, VOICE)
+    speak = tts_text(text)  # 読みだけ差し替えたテキストで発話する
+    communicate = edge_tts.Communicate(speak, VOICE)
     audio = bytearray()
     cues = []
     async for chunk in communicate.stream():
@@ -50,14 +53,18 @@ async def synthesize(index, text):
 
     # 1) 字幕として返ってきた文字数が、原稿にどれだけ届いているか
     spoken = sum(len(c["text"]) for c in cues)
-    coverage = spoken / max(1, len(text))
+    coverage = spoken / max(1, len(speak))
     # 2) 尺そのものが足りていないか(切れたMP3は極端に短くなる)
     duration = cues[-1]["e"] + 0.7
-    cps = len(text) / max(0.1, duration)
+    cps = len(speak) / max(0.1, duration)
     if coverage < COVERAGE_MIN or cps > MAX_CPS:
         raise Incomplete(
             f"読み上げが途中で切れています(原稿の{coverage:.0%}・{cps:.1f}文字/秒)"
         )
+    # 字幕の表示は元の表記に戻す(読み差し替えの逆変換)
+    for cue in cues:
+        for surface, reading in READINGS.items():
+            cue["text"] = cue["text"].replace(reading, surface)
     return bytes(audio), cues, round(duration, 3)
 
 
@@ -82,10 +89,39 @@ async def gen_segment(index, text):
         return {"dur": duration, "cues": cues}
 
 
+def load_existing():
+    """既存の captions.js から NARRATION 配列を読み出す(部分再生成用)。"""
+    path = OUT / "captions.js"
+    if not path.exists():
+        return None
+    m = re.search(r"window\.NARRATION = (\[.*\]);", path.read_text(encoding="utf-8"), re.S)
+    if not m:
+        return None
+    data = json.loads(m.group(1))
+    return data if len(data) == len(SEGMENTS) else None
+
+
 async def main():
     OUT.mkdir(parents=True, exist_ok=True)
+
+    targets = None  # None = 全シーン
+    if len(sys.argv) > 1:
+        targets = {int(a) for a in sys.argv[1:]}
+        bad = [i for i in targets if not 1 <= i <= len(SEGMENTS)]
+        if bad:
+            print(f"シーン番号は 1〜{len(SEGMENTS)} で指定してください: {bad}")
+            return 1
+        existing = load_existing()
+        if existing is None:
+            print("既存の captions.js が読めないため、部分再生成はできません。")
+            print("引数なしで実行して全シーンを生成してください。")
+            return 1
+
     results = []
     for i, text in enumerate(SEGMENTS, 1):
+        if targets is not None and i not in targets:
+            results.append(existing[i - 1])
+            continue
         results.append(await gen_segment(i, text))
 
     failed = [i for i, r in enumerate(results, 1) if r is None]
