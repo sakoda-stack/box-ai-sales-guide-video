@@ -423,6 +423,19 @@
       .note-card, .scene.dense .note-card { padding: 2.2% 2.6%; gap: .5em; }
       .example-item, .scene.dense .example-item { padding: 2.2% 3.2%; }
     }
+    /* ===== 開始画面(音声つき再生) =====
+       ブラウザは操作なしの音声つき自動再生をブロックするため、
+       まず自動再生を試し、ブロックされた場合のみこの開始ボタンを表示する。 */
+    .start-overlay { position: absolute; inset: 0; z-index: 28; display: none; place-items: center;
+      background: rgba(4,11,26,.86); backdrop-filter: blur(6px); color: #fff; text-align: center; cursor: pointer; }
+    .start-overlay.on { display: grid; }
+    .start-overlay .start-btn { width: clamp(72px, 12cqw, 120px); aspect-ratio: 1; border-radius: 50%; border: 0; cursor: pointer;
+      background: linear-gradient(135deg, #2f7cf6, #12b7d4); color: #fff; font-size: clamp(26px, 4.6cqw, 46px);
+      display: grid; place-items: center; margin: 0 auto; padding-left: .12em; box-shadow: 0 18px 50px rgba(18,120,246,.45); }
+    .start-overlay b { display: block; margin-top: 18px; font-size: clamp(15px, 2cqw, 24px); font-weight: 900; letter-spacing: .04em; }
+    .start-overlay span { display: block; margin-top: 8px; font-size: clamp(11px, 1.4cqw, 16px); color: #b9cbe6; font-weight: 700; }
+    .start-overlay .start-silent { margin-top: 26px; padding: .8em 1.6em; border: 1px solid rgba(255,255,255,.28); border-radius: 999px;
+      background: rgba(255,255,255,.1); color: #dbe7f8; font-size: clamp(11px, 1.3cqw, 15px); font-weight: 800; cursor: pointer; }
     /* ===== 縦持ちスマホ向けの案内 =====
        16:9のステージは縦画面だと極端に小さくなるため、横向きを案内する。
        端末を横にすると(メディアクエリで)自動的に消える。 */
@@ -783,6 +796,15 @@
         <button id="fullscreen" title="全画面 (F)" aria-label="全画面">⛶</button>
       </div>
       <div class="progress" id="progress" title="クリックして移動"><div class="progress-fill" id="progressFill"></div></div>
+
+      <div class="start-overlay" id="startOverlay">
+        <div>
+          <button type="button" class="start-btn" aria-label="音声つきで再生">▶</button>
+          <b>音声つきで再生</b>
+          <span>クリック / タップで最初から再生します</span>
+          <button type="button" class="start-silent" id="startSilent">音声なしで見る（字幕のみ）</button>
+        </div>
+      </div>
     </div>
 
     <div class="rotate-hint" id="rotateHint" role="note">
@@ -1055,15 +1077,48 @@
         requestAnimationFrame(tick);
       }
 
-      function start() {
+      function start(withSound) {
         started = true;
-        ttsOn = false;            // 音声は ♬ ボタン(利用者の操作)でON。自動再生制限を回避する
-        muted = true; audio.muted = true;
+        if (AUDIO_OK) {
+          ttsOn = false;
+          muted = !withSound; audio.muted = muted;
+        } else {
+          muted = !(withSound && ttsReady());
+          ttsOn = !muted;
+        }
         playing = true; last = performance.now();
         show(0);
-        if (!toastShown && voiceAvailable()) {
+        if (!muted) {
+          muteBtn.classList.remove('attn');
+          showToast(`音声ON：${voiceLabel()}`);
+        } else if (!toastShown && voiceAvailable()) {
           toastShown = true;
           setTimeout(() => { hintVoice(); pokeControls(5200); }, 900);
+        }
+      }
+
+      // 初回から音声つきで再生する。まず音声ONの自動再生を試し、
+      // ブラウザにブロックされた場合のみ開始画面(クリックで音声つき開始)を出す。
+      const startOverlay = document.getElementById('startOverlay');
+      startOverlay.addEventListener('click', () => {
+        startOverlay.classList.remove('on');
+        start(true);
+      });
+      document.getElementById('startSilent').addEventListener('click', (e) => {
+        e.stopPropagation();  // 外側の「音声つきで開始」を発火させない
+        startOverlay.classList.remove('on');
+        start(false);
+      });
+      function boot() {
+        if (AUDIO_OK) {
+          audio.src = srcOf(0); audio.muted = false;
+          const probe = audio.play();
+          (probe || Promise.reject()).then(
+            () => { audio.pause(); try { audio.currentTime = 0; } catch (_) {} start(true); },
+            () => startOverlay.classList.add('on')
+          );
+        } else {
+          startOverlay.classList.add('on');
         }
       }
 
@@ -1157,7 +1212,7 @@
         else if (key === 's') rateBtn.click();
       });
 
-      start(); requestAnimationFrame(tick);
+      boot(); requestAnimationFrame(tick);
     })();
   </script>
 </body>
