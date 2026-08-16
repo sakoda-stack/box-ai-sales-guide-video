@@ -359,6 +359,12 @@
     .crumb.current { background: linear-gradient(90deg,#1769ff,#00b4ea); border-color: transparent; color: #fff; box-shadow: 0 6px 18px rgba(23,105,255,.42); }
     .crumb-sep { color: rgba(255,255,255,.3); font-size: clamp(6px,.7cqw,12px); pointer-events: none; }
     .scene-counter { flex: 0 0 auto; color: #fff; background: rgba(3,13,32,.62); padding: .5em .85em; border-radius: 999px; font-size: clamp(8px,.8cqw,14px); font-weight: 800; backdrop-filter: blur(8px); }
+    /* 常時表示の音声切替(コントロールバーは自動で隠れるため、いつでも押せる場所に置く) */
+    .sound-toggle { flex: 0 0 auto; pointer-events: auto; border: 0; cursor: pointer; color: #fff; background: rgba(3,13,32,.62);
+      width: clamp(26px, 2.6cqw, 40px); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; backdrop-filter: blur(8px); }
+    .sound-toggle svg { width: 58%; height: 58%; display: block; }
+    .sound-toggle.on { background: rgba(31,210,255,.4); }
+    .sound-toggle:hover { background: rgba(31,210,255,.55); }
     .brand-mark { flex: 0 0 auto; display: flex; align-items: center; gap: .65em; color: #fff; font-size: clamp(8px,.82cqw,14px); font-weight: 800; background: rgba(3,13,32,.5); padding: .45em .8em; border-radius: 999px; backdrop-filter: blur(8px); opacity: .9; }
     .brand-mark i { width: 16px; height: 16px; border-radius: 6px; background: linear-gradient(145deg,var(--blue),var(--cyan)); box-shadow: 0 4px 12px rgba(0,120,255,.4); }
     .toast.hint { color: #d8ecff; }
@@ -784,6 +790,7 @@
         <div class="brand-mark"><i></i> Box AI 営業活用ガイド</div>
         <nav class="crumbs" id="crumbs" aria-label="チャプター"></nav>
         <div class="scene-counter"><span id="counter">1 / 12</span></div>
+        <button id="soundToggle" class="sound-toggle" title="音声（ナレーション）オン・オフ (M)" aria-label="音声オン・オフ" aria-pressed="false"></button>
       </div>
       <div class="controls" id="controls" aria-label="動画コントロール">
         <button id="prev" title="前のシーン" aria-label="前のシーン">◀</button>
@@ -834,6 +841,7 @@
       const audio = document.getElementById('voice');
       const playBtn = document.getElementById('play');
       const muteBtn = document.getElementById('mute');
+      const soundToggle = document.getElementById('soundToggle');
       const ccBtn = document.getElementById('cc');
       const fsBtn = document.getElementById('fullscreen');
       const rateBtn = document.getElementById('rate');
@@ -958,9 +966,9 @@
         loadVoices();
         if (SPEECH) SPEECH.addEventListener('voiceschanged', () => {
           const had = !!jaVoice; loadVoices();
-          if (!had && jaVoice) { muteBtn.style.display = ''; if (started && !toastShown) { toastShown = true; hintVoice(); } }
+          if (!had && jaVoice) { muteBtn.style.display = ''; soundToggle.style.display = ''; if (started && !toastShown) { toastShown = true; hintVoice(); } }
         });
-        if (!ttsReady()) muteBtn.style.display = 'none';
+        if (!ttsReady()) { muteBtn.style.display = 'none'; soundToggle.style.display = 'none'; }
       }
       if (!document.fullscreenEnabled) fsBtn.style.display = 'none';
       audio.addEventListener('loadedmetadata', () => { audio.playbackRate = rate(); });
@@ -1047,6 +1055,9 @@
         muteBtn.classList.toggle('on', !muted);
         muteBtn.setAttribute('aria-pressed', String(!muted));
         muteBtn.innerHTML = muted ? ICON_MUTED : ICON_SOUND;
+        soundToggle.classList.toggle('on', !muted);
+        soundToggle.setAttribute('aria-pressed', String(!muted));
+        soundToggle.innerHTML = muted ? ICON_MUTED : ICON_SOUND;
         ccBtn.classList.toggle('on', captionsOn);
         rateBtn.textContent = rate() === 1 ? '1×' : rate().toFixed(2).replace(/0$/, '') + '×';
         rateBtn.classList.toggle('on', rate() !== 1);
@@ -1136,6 +1147,8 @@
       });
       document.getElementById('prev').addEventListener('click', () => { if (started) show(current - 1); });
       document.getElementById('next').addEventListener('click', () => { if (started) show(current + 1); });
+      soundToggle.innerHTML = ICON_MUTED;
+      soundToggle.addEventListener('click', () => muteBtn.click());
       muteBtn.addEventListener('click', () => {
         if (!voiceAvailable()) { showToast('この環境では音声を利用できません（字幕でご覧ください）'); return; }
         muted = !muted; audio.muted = muted;
@@ -1196,7 +1209,7 @@
       function hideControls() { clearTimeout(ctrlTimer); controls.classList.remove('visible'); }
       stage.addEventListener('pointermove', (e) => { if (e.pointerType !== 'touch') pokeControls(1800); });
       stage.addEventListener('pointerdown', (e) => {
-        if (controls.contains(e.target) || crumbsBox.contains(e.target) || progress.contains(e.target)) { pokeControls(3200); return; }
+        if (controls.contains(e.target) || crumbsBox.contains(e.target) || progress.contains(e.target) || soundToggle.contains(e.target)) { pokeControls(3200); return; }
         if (controls.classList.contains('visible')) hideControls(); else pokeControls(3200);
       });
 
